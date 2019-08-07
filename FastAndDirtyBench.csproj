@@ -12,6 +12,7 @@
     <Title>FastAndDirtyBench</Title>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Owners>Jack Casey</Owners>
+    <PackageProjectUrl>https://github.com/jackdcasey/FastAndDirtyBench</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
