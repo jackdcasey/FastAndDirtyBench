@@ -9,14 +9,14 @@ namespace FastAndDirtyBench
     // TODO: Add license
     // This is a work in progress :) 
 
-    public class FastAndDirtyBench
+    public class Benchmarker
     {
         public bool Enabled;
 
         private readonly string OutputFile;
         private Dictionary<string, BenchmarkItem> BenchmarkItemStore;
 
-        public FastAndDirtyBench(string outputFile)
+        public Benchmarker(string outputFile)
         {
             if (!File.Exists(outputFile)) File.Create(outputFile);
 
