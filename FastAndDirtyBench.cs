@@ -1,52 +1,37 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 namespace FastAndDirtyBench
 {
     public class Benchmarker
     {
-        private Dictionary<string, BenchmarkItem> BenchmarkItemStore;
+        private Dictionary<string, Stopwatch> StopwatchStore;
 
         public Benchmarker()
         {
-            BenchmarkItemStore = new Dictionary<string, BenchmarkItem>();
-
-            // Initialize dictionary to reduce possible latancy
-            BenchmarkItemStore.Add("Initialization", new BenchmarkItem
-            {
-                StartTime = DateTime.Now,
-                EndTime = DateTime.Now,
-                Completed = true,
-            });
-
-            BenchmarkItemStore.Remove("Initialization");
+            StopwatchStore = new Dictionary<string, Stopwatch>();
         }
 
         public void Start(string name)
         {
-            DateTime currentTime = DateTime.Now;
-
-            BenchmarkItemStore.Add(name, new BenchmarkItem
-            {
-                StartTime = currentTime
-            });
-        }
+            Stopwatch newStopwatch = new Stopwatch();
+            StopwatchStore.Add(name, newStopwatch);
+            StopwatchStore[name].Start();
+        }       
 
         public void Stop(string name)
         {
-            DateTime currentTime = DateTime.Now;
-
-            BenchmarkItemStore[name].EndTime = currentTime;
-            BenchmarkItemStore[name].Completed = true;
+            StopwatchStore[name].Stop();
         }
 
         public void Output(string outputFile)
         {
             if (!File.Exists(outputFile)) File.Create(outputFile);
 
-            int longestName = BenchmarkItemStore.Select(k => k.Key.Length).Max();
+            int longestName = StopwatchStore.Select(k => k.Key.Length).Max();
 
             string stringFormat = $"{{0, -{longestName + 5}}}{{1, -20}}{{2, -20}}"; // Looks ugly, but works
 
@@ -56,16 +41,15 @@ namespace FastAndDirtyBench
                 sw.WriteLine();
                 sw.WriteLine(String.Format(stringFormat, "Name:", "Time:", "Time (ms):"));
 
-                foreach (KeyValuePair<string, BenchmarkItem> kv in BenchmarkItemStore.OrderBy(kv => kv.Key))
+                foreach (KeyValuePair<string, Stopwatch> kv in StopwatchStore.OrderBy(kv => kv.Key))
                 {
-                    if (kv.Value.Completed)
+                    if (kv.Value.IsRunning)
                     {
-                        TimeSpan interval = kv.Value.EndTime - kv.Value.StartTime;
-                        sw.WriteLine(String.Format(stringFormat, kv.Key, interval.ToString(), interval.TotalMilliseconds));
+                        sw.WriteLine(String.Format(stringFormat, kv.Key, "Did Not Complete", "---"));
                     }
                     else
                     {
-                        sw.WriteLine(String.Format(stringFormat, kv.Key, "Did Not Complete", "---"));
+                        sw.WriteLine(String.Format(stringFormat, kv.Key, kv.Value.Elapsed.ToString(), kv.Value.ElapsedMilliseconds));
                     }
                 }
 
