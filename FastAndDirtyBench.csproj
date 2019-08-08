@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageVersion>0.0.0.16</PackageVersion>
+    <PackageVersion>0.0.0.17</PackageVersion>
     <Authors>Jack Casey</Authors>
     <Description>A fast and dirty benchmarking utility for dotnet</Description>
     <PackOnBuild>true</PackOnBuild>

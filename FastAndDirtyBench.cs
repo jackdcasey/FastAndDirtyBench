@@ -58,11 +58,4 @@ namespace FastAndDirtyBench
             }
         }
     }
-
-    public class BenchmarkItem
-    {
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public bool Completed { get; set; } = false;
-    }
 }
