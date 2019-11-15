@@ -1,4 +1,4 @@
 # FastAndDirtyBench
 A fast and dirty benchmark utility for dotnet 
 
-nuget.org/packages/FastAndDirtyBench/
+https://www.nuget.org/packages/FastAndDirtyBench/
